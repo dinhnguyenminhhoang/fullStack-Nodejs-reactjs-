@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>get CROD</title>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <table style="width: 100%">
+      <tr>
+        <th>Email</th>
+        <th>first Name</th>
+        <th>last Name</th>
+        <th>address</th>
+        <th>action</th>
+      </tr>
+      <% for(let i=0; i < data.length; i++) { %>
+      <tr>
+        <td><%= data[i].email %></td>
+        <td><%= data[i].firstName%></td>
+        <td><%= data[i].lastName%></td>
+        <td><%= data[i].address%></td>
+        <td>
+          <a href="/edit-crud?id=<%=data[i].id %>" class="btn-edit" type="a"
+            >Edit</a
+          >
+          <a href="/delete-crud?id=<%=data[i].id %>" class="btn-delete" type="a"
+            >delete</a
+          >
+        </td>
+      </tr>
+      <% } %>
+    </table>
+  </body>
+</html>

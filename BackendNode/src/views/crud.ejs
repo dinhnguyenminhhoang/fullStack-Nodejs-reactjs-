@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD</title>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+          <form action="/post-crud" method="POST">
+            <div class="form-group col-md-6">
+              <label for="exampleInputEmail1">Email address</label>
+              <input
+                type="email"
+                class="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                placeholder="Enter email"
+                name="email"
+              />
+              <small id="emailHelp" class="form-text text-muted"
+                >We'll never share your email with anyone else.</small
+              >
+            </div>
+            <div class="form-group col-md-6">
+              <label for="exampleInputPassword1">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="exampleInputPassword1"
+                placeholder="Password"
+                name="password"
+              />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="exampleInputfirstName1">first Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputfirstName1"
+                placeholder="firstName"
+                name="firstName"
+              />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="exampleInputlastName1">lastName</label>
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputlastName1"
+                placeholder="lastName"
+                name="lastName"
+              />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="exampleInputaddress1">address</label>
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputaddress1"
+                placeholder="address"
+                name="address"
+              />
+        
+              <div class="form-group col-md-6">
+                <label for="exampleInputphoneNumber1">phoneNumber</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleInputphoneNumber1"
+                  placeholder="phoneNumber"
+                  name="phoneNumber"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <label for="exampleFormControlSelect1">sex</label>
+                <select
+                  name="gender"
+                  class="form-control"
+                  id="exampleFormControlSelect1"
+                >
+                  <option value="1">male</option>
+                  <option value="0">female</option>
+                </select>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="exampleFormControlSelect1">Role</label>
+                <select
+                  name="roleId"
+                  class="form-control"
+                  id="exampleFormControlSelect1"
+                >
+                  <option value="1">Admin</option>
+                  <option value="0">doctor</option>
+                  <option value="0">patient</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="exampleInputposition1">position</label>
+                <input
+                  type="Text"
+                  class="form-control"
+                  id="exampleInputposition"
+                  name="position"
+                />
+                <small id="emailHelp" class="form-text text-muted"
+                  >We'll never share your email with anyone else.</small
+                >
+              </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="exampleCheck1"
+              />
+              <label class="form-check-label" for="exampleCheck1"
+                >Check me out</label
+              >
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
