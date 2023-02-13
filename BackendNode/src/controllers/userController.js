@@ -14,6 +14,20 @@ const handleLogin = async (req, res) => {
     userData,
   });
 };
+const handlGetAllUsers = async (req, res) => {
+  let type = req.query.id; // All or single
+  let users = await userService.getAllUsers(type);
+  return res.status(200).json({
+    users,
+    errcode: 0,
+    errMessage: "OK",
+  });
+};
+const handleCreateNewUser = async (req, res) => {
+  
+};
 module.exports = {
   handleLogin,
+  handlGetAllUsers,
+  handleCreateNewUser,
 };
