@@ -1,5 +1,6 @@
 import db from "../models";
 import bcrypt from "bcryptjs";
+const salt = bcrypt.genSaltSync(10);
 let handleUserLogin = (email, password) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -75,8 +76,45 @@ let getAllUsers = (id) => {
     }
   });
 };
+let createNewUser = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let check = await checkUserEmail(data.email);
+      if (check) {
+        resolve({ errcode: 1, message: "email đã được sử dụng" });
+      }
+      let hasPassWordFromBcr = await hashUserPassword(data.password);
+      await db.User.create({
+        email: data.email,
+        passWord: hasPassWordFromBcr,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        address: data.address,
+        phoneNumber: data.phoneNumber,
+        gender: data.gender === "1" ? true : false,
+        roleId: data.roleId,
+        positionId: data.position,
+      });
+      resolve({ errcode: 0, message: "OK" });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+let hashUserPassword = (password) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let hashPassWord = await bcrypt.hashSync(password, salt);
+      resolve(hashPassWord);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   handleUserLogin,
   checkUserEmail,
   getAllUsers,
+  createNewUser,
+  hashUserPassword,
 };

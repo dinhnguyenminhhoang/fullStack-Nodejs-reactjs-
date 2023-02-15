@@ -24,7 +24,8 @@ const handlGetAllUsers = async (req, res) => {
   });
 };
 const handleCreateNewUser = async (req, res) => {
-  
+  let message = await userService.createNewUser(req.body);
+  return res.status(200).json(message);
 };
 module.exports = {
   handleLogin,
