@@ -1,21 +1,32 @@
 import db from "../models";
 import bcrypt from "bcryptjs";
 const salt = bcrypt.genSaltSync(10);
-let handleUserLogin = (email, password) => {
+
+let hashUserpassWord = (passWord) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let hashpassWord = await bcrypt.hashSync(passWord, salt);
+      resolve(hashpassWord);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+let handleUserLogin = (email, passWord) => {
   return new Promise(async (resolve, reject) => {
     try {
       let userData = {};
 
       let isExits = await checkUserEmail(email);
       if (isExits) {
-        //compare password
+        //compare passWord
         let user = await db.User.findOne({
           attributes: ["email", "roleId", "passWord"],
           where: { email: email },
           raw: true,
         });
         if (user) {
-          let check = await bcrypt.compareSync(password, user.passWord);
+          let check = await bcrypt.compareSync(passWord, user.passWord);
           if (check) {
             userData.errcode = 0;
             userData.errMessage = "OK";
@@ -23,7 +34,7 @@ let handleUserLogin = (email, password) => {
             userData.user = user;
           } else {
             userData.errcode = 3;
-            userData.errMessage = "wrong password";
+            userData.errMessage = "wrong passWord";
           }
         } else {
           userData.errcode = 2;
@@ -76,38 +87,71 @@ let getAllUsers = (id) => {
     }
   });
 };
-let createNewUser = () => {
+let createNewUser = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
       let check = await checkUserEmail(data.email);
       if (check) {
         resolve({ errcode: 1, message: "email đã được sử dụng" });
+      } else {
+        let haspassWordFromBcr = await hashUserpassWord(data.passWord);
+        await db.User.create({
+          email: data.email,
+          passWord: haspassWordFromBcr,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          address: data.address,
+          phoneNumber: data.phoneNumber,
+          gender: data.gender === "1" ? true : false,
+          roleId: data.roleId,
+          positionId: data.position,
+        });
+        resolve({ errcode: 0, message: "OK" });
       }
-      let hasPassWordFromBcr = await hashUserPassword(data.password);
-      await db.User.create({
-        email: data.email,
-        passWord: hasPassWordFromBcr,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        address: data.address,
-        phoneNumber: data.phoneNumber,
-        gender: data.gender === "1" ? true : false,
-        roleId: data.roleId,
-        positionId: data.position,
-      });
-      resolve({ errcode: 0, message: "OK" });
     } catch (error) {
       reject(error);
     }
   });
 };
-let hashUserPassword = (password) => {
+let editUser = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let hashPassWord = await bcrypt.hashSync(password, salt);
-      resolve(hashPassWord);
-    } catch (e) {
-      reject(e);
+      if (!data.id) {
+        resolve({ errcode: 2, errMessage: "missing required parmeter" });
+      }
+      let foundUser = await db.User.findOne({
+        where: { id: data.id },
+        raw: false,
+      });
+      if (!foundUser) {
+        resolve({ errcode: 2, errMessage: "the user not found!" });
+      }
+      if (foundUser) {
+        foundUser.firstName = data.firstName;
+        foundUser.lastName = data.lastName;
+        foundUser.address = data.address;
+        await foundUser.save();
+        resolve({ errcode: 0, message: "update user successfully" });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+let deleteUser = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let foundUser = await db.User.findOne({ where: { id: userId } });
+      if (!foundUser) {
+        resolve({ errcode: 2, errMessage: "the user not found!" });
+      }
+      // if (foundUser) {
+      //   await foundUser.distroy();
+      // }
+      await db.User.destroy({ where: { id: userId } });
+      resolve({ errcode: 0, message: "delete account succsessful" });
+    } catch (error) {
+      reject(error);
     }
   });
 };
@@ -116,5 +160,7 @@ module.exports = {
   checkUserEmail,
   getAllUsers,
   createNewUser,
-  hashUserPassword,
+  hashUserpassWord,
+  editUser,
+  deleteUser,
 };

@@ -4,10 +4,10 @@ const salt = bcrypt.genSaltSync(10);
 let creatNewUser = async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let hasPassWordFromBcr = await hashUserPassword(data.password);
+      let haspassWordFromBcr = await hashUserpassWord(data.passWord);
       await db.User.create({
         email: data.email,
-        passWord: hasPassWordFromBcr,
+        passWord: haspassWordFromBcr,
         firstName: data.firstName,
         lastName: data.lastName,
         address: data.address,
@@ -22,11 +22,11 @@ let creatNewUser = async (data) => {
     }
   });
 };
-let hashUserPassword = (password) => {
+let hashUserpassWord = (passWord) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let hashPassWord = await bcrypt.hashSync(password, salt);
-      resolve(hashPassWord);
+      let hashpassWord = await bcrypt.hashSync(passWord, salt);
+      resolve(hashpassWord);
     } catch (e) {
       reject(e);
     }
@@ -98,7 +98,7 @@ let deleteUserById = (id) => {
 };
 module.exports = {
   creatNewUser,
-  hashUserPassword,
+  hashUserpassWord,
   getAllUsers,
   getUserInfoById,
   updateUserData,
